@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en" data-bs-theme="auto">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Meijer Pharmacy - Temperature Log App Pilot</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    .b-example-divider {
+      width: 100%;
+      height: 3rem;
+      background-color: rgba(0, 0, 0, .1);
+      border: solid rgba(0, 0, 0, .15);
+      border-width: 1px 0;
+      box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+    }
+
+    .b-example-vr {
+      flex-shrink: 0;
+      width: 1.5rem;
+      height: 100vh;
+    }
+
+    .bi {
+      vertical-align: -.125em;
+      fill: currentColor;
+    }
+
+    .nav-scroller {
+      position: relative;
+      z-index: 2;
+      height: 2.75rem;
+      overflow-y: hidden;
+    }
+
+    .nav-scroller .nav {
+      display: flex;
+      flex-wrap: nowrap;
+      padding-bottom: 1rem;
+      margin-top: -1px;
+      overflow-x: auto;
+      text-align: center;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .btn-bd-primary {
+      --bd-violet-bg: #712cf9;
+      --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+      --bs-btn-font-weight: 600;
+      --bs-btn-color: var(--bs-white);
+      --bs-btn-bg: var(--bd-violet-bg);
+      --bs-btn-border-color: var(--bd-violet-bg);
+      --bs-btn-hover-color: var(--bs-white);
+      --bs-btn-hover-bg: #6528e0;
+      --bs-btn-hover-border-color: #6528e0;
+      --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+      --bs-btn-active-color: var(--bs-btn-hover-color);
+      --bs-btn-active-bg: #5a23c8;
+      --bs-btn-active-border-color: #5a23c8;
+    }
+
+    .bd-mode-toggle {
+      z-index: 1500;
+    }
+
+    .bd-mode-toggle .dropdown-menu .active .bi {
+      display: block !important;
+    }
+  </style>
+
+    <!-- Custom styles for this template -->
+    <link href="features.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous">
+    <link rel="shortcut icon"
+      href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAdElEQVQ4jWP8//8/AyWAiSLdDAwMjPeFRPczMDA4MDAwHGBgYEiFis9GE7vDwMCggk2c8b6QKLIfDkAVoINWBgaGajSxAwwMDEfRDSAVHMAWBqpQTJQ4CxaFd3DYhlUc3QUHcGjGJU55NI4aMBgMYKQ0OwMA7d8bOZ13gaIAAAAASUVORK5CYII=" />
+
+  </head>
+
+  <body>
+    <br>
+    <div style="text-align: center;">
+      <img height="80" alt="Meijer Pharmacy"
+        src="data:image/png;base64,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" />
+
+    </div>
+
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+      <symbol id="check2" viewBox="0 0 16 16">
+        <path
+          d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
+      </symbol>
+      <symbol id="circle-half" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
+      </symbol>
+      <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+        <path
+          d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z" />
+        <path
+          d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z" />
+      </symbol>
+      <symbol id="sun-fill" viewBox="0 0 16 16">
+        <path
+          d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" />
+      </symbol>
+    </svg>
+
+    <!-- <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
+      <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
+              id="bd-theme"
+              type="button"
+              aria-expanded="false"
+              data-bs-toggle="dropdown"
+              aria-label="Toggle theme (auto)">
+        <svg class="bi my-1 theme-icon-active" width="1em" height="1em"><use href="#circle-half"></use></svg>
+        <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
+        <li>
+          <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+            <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#sun-fill"></use></svg>
+            Light
+            <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+            <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#moon-stars-fill"></use></svg>
+            Dark
+            <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true">
+            <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#circle-half"></use></svg>
+            Auto
+            <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
+          </button>
+        </li>
+      </ul>
+    </div> -->
+
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+      <symbol id="bootstrap" viewBox="0 0 118 94">
+        <title>Bootstrap</title>
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z">
+        </path>
+      </symbol>
+      <symbol id="home" viewBox="0 0 16 16">
+        <path
+          d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z" />
+      </symbol>
+      <symbol id="speedometer2" viewBox="0 0 16 16">
+        <path
+          d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z" />
+        <path fill-rule="evenodd"
+          d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z" />
+      </symbol>
+      <symbol id="table" viewBox="0 0 16 16">
+        <path
+          d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z" />
+      </symbol>
+      <symbol id="people-circle" viewBox="0 0 16 16">
+        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+        <path fill-rule="evenodd"
+          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+      </symbol>
+      <symbol id="collection" viewBox="0 0 16 16">
+        <path
+          d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13z" />
+      </symbol>
+      <symbol id="calendar3" viewBox="0 0 16 16">
+        <path
+          d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+        <path
+          d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+      </symbol>
+      <symbol id="cpu-fill" viewBox="0 0 16 16">
+        <path
+          d="M6.5 6a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z" />
+        <path
+          d="M5.5.5a.5.5 0 0 0-1 0V2A2.5 2.5 0 0 0 2 4.5H.5a.5.5 0 0 0 0 1H2v1H.5a.5.5 0 0 0 0 1H2v1H.5a.5.5 0 0 0 0 1H2v1H.5a.5.5 0 0 0 0 1H2A2.5 2.5 0 0 0 4.5 14v1.5a.5.5 0 0 0 1 0V14h1v1.5a.5.5 0 0 0 1 0V14h1v1.5a.5.5 0 0 0 1 0V14h1v1.5a.5.5 0 0 0 1 0V14a2.5 2.5 0 0 0 2.5-2.5h1.5a.5.5 0 0 0 0-1H14v-1h1.5a.5.5 0 0 0 0-1H14v-1h1.5a.5.5 0 0 0 0-1H14v-1h1.5a.5.5 0 0 0 0-1H14A2.5 2.5 0 0 0 11.5 2V.5a.5.5 0 0 0-1 0V2h-1V.5a.5.5 0 0 0-1 0V2h-1V.5a.5.5 0 0 0-1 0V2h-1V.5zm1 4.5h3A1.5 1.5 0 0 1 11 6.5v3A1.5 1.5 0 0 1 9.5 11h-3A1.5 1.5 0 0 1 5 9.5v-3A1.5 1.5 0 0 1 6.5 5z" />
+      </symbol>
+      <symbol id="gear-fill" viewBox="0 0 16 16">
+        <path
+          d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z" />
+      </symbol>
+      <symbol id="speedometer" viewBox="0 0 16 16">
+        <path
+          d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2zM3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.389.389 0 0 0-.029-.518z" />
+        <path fill-rule="evenodd"
+          d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.945 11.945 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0z" />
+      </symbol>
+      <symbol id="toggles2" viewBox="0 0 16 16">
+        <path
+          d="M9.465 10H12a2 2 0 1 1 0 4H9.465c.34-.588.535-1.271.535-2 0-.729-.195-1.412-.535-2z" />
+        <path
+          d="M6 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 1a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm.535-10a3.975 3.975 0 0 1-.409-1H4a1 1 0 0 1 0-2h2.126c.091-.355.23-.69.41-1H4a2 2 0 1 0 0 4h2.535z" />
+        <path d="M14 4a4 4 0 1 1-8 0 4 4 0 0 1 8 0z" />
+      </symbol>
+      <symbol id="tools" viewBox="0 0 16 16">
+        <path
+          d="M1 0L0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.356 3.356a1 1 0 0 0 1.414 0l1.586-1.586a1 1 0 0 0 0-1.414l-3.356-3.356a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3c0-.269-.035-.53-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814L1 0zm9.646 10.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708zM3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026L3 11z" />
+      </symbol>
+      <symbol id="chevron-right" viewBox="0 0 16 16">
+        <path fill-rule="evenodd"
+          d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+      </symbol>
+      <symbol id="geo-fill" viewBox="0 0 16 16">
+        <path fill-rule="evenodd"
+          d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.319 1.319 0 0 0-.37.265.301.301 0 0 0-.057.09V14l.002.008a.147.147 0 0 0 .016.033.617.617 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.619.619 0 0 0 .146-.15.148.148 0 0 0 .015-.033L12 14v-.004a.301.301 0 0 0-.057-.09 1.318 1.318 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465-1.281 0-2.462-.172-3.34-.465-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411z" />
+      </symbol>
+    </svg>
+    <main>
+      <h1 style="text-align: center;">Temperature Log App</h1>
+      <!--FIRST ROW-->
+      <div class="container px-4 py-5" id="hanging-icons">
+        <h2 class="pb-2 border-bottom">Links for Store Use</h2>
+        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+          <div class="col d-flex align-items-start">
+            <div
+              class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                width="1em" height="1em"
+                class="bi bi-plus-circle" viewBox="0 0 16 16">
+                <path
+                  d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                <path
+                  d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+              </svg>
+
+            </div>
+            <div>
+              <h3 class="fs-2 text-body-emphasis">Enter a temperature
+                reading</h3>
+              <p>Use this button to enter the temperatures for your refrigerator
+                and freezer units. This should be
+                completed twice daily.<br>
+                <i>If a temperature is out of range, an email alert will be sent
+                  to the store team.</i>
+              </p>
+              <a
+                href="https://forms.office.com/Pages/ResponsePage.aspx?id=IlJBm9wWUEK9YIo3VZFgmvQwMCBwoE5DsrJxENK0GzBUQVBPUk9LRDdPNVI3NEtXODVXMFpBUDVGUi4u"
+                class="btn btn-primary">
+                Log a temperature reading
+              </a>
+            </div>
+          </div>
+          <div class="col d-flex align-items-start">
+            <div
+              class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                fill="currentColor"
+                class="bi bi-envelope-arrow-down" viewBox="0 0 16 16">
+                <path
+                  d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4.5a.5.5 0 0 1-1 0V5.383l-7 4.2-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h5.5a.5.5 0 0 1 0 1H2a2 2 0 0 1-2-1.99zm1 7.105 4.708-2.897L1 5.383zM1 4v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1" />
+                <path
+                  d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.354-1.646a.5.5 0 0 1-.722-.016l-1.149-1.25a.5.5 0 1 1 .737-.676l.28.305V11a.5.5 0 0 1 1 0v1.793l.396-.397a.5.5 0 0 1 .708.708z" />
+              </svg>
+            </div>
+            <div>
+              <h3 class="fs-2 text-body-emphasis">Retrieve log of recorded
+                temps</h3>
+              <p>Use this button to generate an emailed report for any date
+                range. If you have a vaccine storage
+                troubleshooting record for this date range, this will be emailed
+                to you also.</p>
+              <a
+                href="https://forms.office.com/Pages/ResponsePage.aspx?id=IlJBm9wWUEK9YIo3VZFgmvQwMCBwoE5DsrJxENK0GzBUNVFQQllGMTY2Qks5WVFSUjJPNTE0OTAxSC4u"
+                class="btn btn-primary">
+                Get my temperature logs
+              </a>
+            </div>
+          </div>
+          <div class="col d-flex align-items-start">
+            <div
+              class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                fill="currentColor"
+                class="bi bi-question-circle" viewBox="0 0 16 16">
+                <path
+                  d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                <path
+                  d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94" />
+              </svg>
+            </div>
+            <div>
+              <h3 class="fs-2 text-body-emphasis">Need help?</h3>
+              <p>This is a pilot being tested in select pharmacies to aid in the
+                accuracy of temperature recording.
+                Contact Adam Lubin (Adam.Lubin@meijer.com) with any ideas,
+                suggestions, or bug reports.</p>
+              <a
+                href="mailto:adam.lubin@meijer.com?Subject=Temperature%20Log%20App"
+                class="btn btn-primary">
+                Email Adam Lubin
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--SECOND ROW-->
+      <div class="container px-4 py-5" id="hanging-icons">
+        <h2 class="pb-2 border-bottom">Links for CPS/PDM Use</h2>
+        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+          <div class="col d-flex align-items-start">
+            <div
+              class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                fill="currentColor"
+                class="bi bi-clipboard2-check" viewBox="0 0 16 16">
+                <path
+                  d="M9.5 0a.5.5 0 0 1 .5.5.5.5 0 0 0 .5.5.5.5 0 0 1 .5.5V2a.5.5 0 0 1-.5.5h-5A.5.5 0 0 1 5 2v-.5a.5.5 0 0 1 .5-.5.5.5 0 0 0 .5-.5.5.5 0 0 1 .5-.5z" />
+                <path
+                  d="M3 2.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 0 0-1h-.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1H12a.5.5 0 0 0 0 1h.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5z" />
+                <path
+                  d="M10.854 7.854a.5.5 0 0 0-.708-.708L7.5 9.793 6.354 8.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z" />
+              </svg>
+
+            </div>
+            <div>
+              <h3 class="fs-2 text-body-emphasis">Compliance report</h3>
+              <p>Use this button to generate a compliance report for stores in a
+                selected region using the electronic
+                temperature log. <br><br>If a store does not have two entries
+                per day, the compliance report will reflect
+                this.</p>
+              <a
+                href="https://forms.office.com/Pages/ResponsePage.aspx?id=IlJBm9wWUEK9YIo3VZFgmvQwMCBwoE5DsrJxENK0GzBUQ0NTRVM2VDRQQkFBUUhXUDVVT1IyRllVVC4u"
+                class="btn btn-primary">
+                Compliance report
+              </a>
+            </div>
+          </div>
+          <div class="col d-flex align-items-start">
+            <div
+              class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                fill="currentColor" class="bi bi-database"
+                viewBox="0 0 16 16">
+                <path
+                  d="M4.318 2.687C5.234 2.271 6.536 2 8 2s2.766.27 3.682.687C12.644 3.125 13 3.627 13 4c0 .374-.356.875-1.318 1.313C10.766 5.729 9.464 6 8 6s-2.766-.27-3.682-.687C3.356 4.875 3 4.373 3 4c0-.374.356-.875 1.318-1.313M13 5.698V7c0 .374-.356.875-1.318 1.313C10.766 8.729 9.464 9 8 9s-2.766-.27-3.682-.687C3.356 7.875 3 7.373 3 7V5.698c.271.202.58.378.904.525C4.978 6.711 6.427 7 8 7s3.022-.289 4.096-.777A5 5 0 0 0 13 5.698M14 4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16s3.022-.289 4.096-.777C13.125 14.755 14 14.007 14 13zm-1 4.698V10c0 .374-.356.875-1.318 1.313C10.766 11.729 9.464 12 8 12s-2.766-.27-3.682-.687C3.356 10.875 3 10.373 3 10V8.698c.271.202.58.378.904.525C4.978 9.71 6.427 10 8 10s3.022-.289 4.096-.777A5 5 0 0 0 13 8.698m0 3V13c0 .374-.356.875-1.318 1.313C10.766 14.729 9.464 15 8 15s-2.766-.27-3.682-.687C3.356 13.875 3 13.373 3 13v-1.302c.271.202.58.378.904.525C4.978 12.71 6.427 13 8 13s3.022-.289 4.096-.777c.324-.147.633-.323.904-.525" />
+              </svg>
+            </div>
+            <div>
+              <h3 class="fs-2 text-body-emphasis">View database</h3>
+              <p>Use this button to look at the database for the temperature
+                log. This is for testing purposes only.</p>
+              <a
+                href="https://meijer365-my.sharepoint.com/:l:/g/personal/adam_lubin_meijer_com/FJ3Kabs9I8tNo3fR6Zvp1x8B0AzoUv5hxnWgOFyf0vGlQA?e=XMGax7"
+                class="btn btn-primary">
+                View database
+              </a>
+            </div>
+          </div>
+          <!--     <div class="col d-flex align-items-start">
+      <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+          <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+          <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
+        </svg>
+      </div>
+      <div>
+        <h3 class="fs-2 text-body-emphasis">Need help?</h3>
+        <p>This is a pilot being tested in select pharmacies to aid in the accuracy of temperature recording. Contact Adam Lubin with any ideas, suggestions, or bug reports.</p>
+        <a href="mailto:adam.lubin@meijer.com?Subject=Temperature%20Log%20App" class="btn btn-primary">
+          Email Adam
+        </a>
+      </div>
+    </div>
+  </div> -->
+        </div>
+      </main>
+      <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+      <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    </body>
+
+  </html>
